@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff0f5">
+<title>For My Favorite Person ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Georgia,serif;color:#74334e;
+  background:linear-gradient(145deg,#fff0f5,#f9d8e6,#fff5ee);text-align:center;
+  overflow-x:hidden;display:flex;justify-content:center;align-items:center;padding:16px}
+.card{width:min(100%,460px);margin:20px auto;padding:28px 22px;
+  background:rgba(255,255,255,.82);border:1px solid #fff;border-radius:28px;
+  box-shadow:0 15px 50px #c86a8b30;position:relative;backdrop-filter:blur(8px)}
+h1{font-size:clamp(29px,7vw,40px);margin:10px 0}
+.subtitle{color:#a65b78;line-height:1.6}
+.photo{width: min(270px,85%);height:330px;max-height:45vh;object-fit:cover;
+  object-position:center 28%;border-radius:48% 48% 22px 22px;border:6px solid white;
+  box-shadow:0 8px 25px #bd658550;margin:18px auto}
+.quote{font-size:19px;line-height:1.8;margin:20px 0}
+button{border:none;border-radius:30px;padding:13px 20px;margin:7px;font-size:15px;
+  cursor:pointer;background:#d85d88;color:white;box-shadow:0 5px 15px #d85d8830}
+button:hover{background:#b94370}
+button:focus-visible{outline:3px solid #74334e;outline-offset:3px}
+#secret{display:none;line-height:1.8;padding:12px;animation:appear 1s ease}
+.heart{position:fixed;bottom:-30px;color:#e7779d;pointer-events:none;
+  animation:floatUp 7s linear forwards;z-index:5}
+@keyframes floatUp{to{transform:translateY(-115vh) rotate(35deg);opacity:0}}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+footer{font-size:13px;color:#a65b78;margin-top:8px}
+@media(prefers-reduced-motion:reduce){.heart{display:none}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main class="card">
+  <div style="font-size:30px" aria-hidden="true">💗 🌷 💗</div>
+  <h1>Hey, My Love ❤️</h1>
+  <p class="subtitle">A little piece of my heart, made just for you.</p>
+  <img class="photo" src="{{ url_for('static', filename='girlfriend.jpg') }}"
+       alt="A beautiful photo of my favorite person">
+  <h2>To My Beautiful Girl 🌸</h2>
+  <p class="quote">“In a world full of temporary things, you are my favorite forever.
+  If I could choose again, in every lifetime, I would still choose you.”</p>
+  <button id="musicBtn" onclick="toggleMusic()">♫ Play our little tune</button><br>
+  <button onclick="showLove()">💌 Open your little surprise</button>
+  <div id="secret">No matter how ordinary a day feels, you make my world beautiful
+  just by being in it. Thank you for being you.<br><br>
+  <strong>I love you, today and always. ❤️</strong></div>
+  <p style="font-size:25px" aria-hidden="true">💞 ∞ 💞</p>
+  <footer>Made with love, only for you ❤️</footer>
+</main>
+<script>
+let audioContext, melodyTimer, playing=false, noteIndex=0;
+const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,
+             261.63,329.63,392,523.25,440,392,329.63,293.66];
+function playNote(){
+  if(!playing||!audioContext)return;
+  const oscillator=audioContext.createOscillator(), volume=audioContext.createGain();
+  oscillator.type="sine"; oscillator.frequency.value=notes[noteIndex++%notes.length];
+  volume.gain.setValueAtTime(.0001,audioContext.currentTime);
+  volume.gain.exponentialRampToValueAtTime(.10,audioContext.currentTime+.06);
+  volume.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+.46);
+  oscillator.connect(volume);volume.connect(audioContext.destination);
+  oscillator.start();oscillator.stop(audioContext.currentTime+.48);
+}
+async function toggleMusic(){
+  const button=document.getElementById("musicBtn");
+  if(playing){playing=false;clearInterval(melodyTimer);button.textContent="♫ Play our little tune";return}
+  const Engine=window.AudioContext||window.webkitAudioContext;
+  if(!Engine){button.textContent="Music isn't supported in this browser";return}
+  if(!audioContext)audioContext=new Engine();
+  if(audioContext.state==="suspended")await audioContext.resume();
+  playing=true;playNote();melodyTimer=setInterval(playNote,500);
+  button.textContent="Ⅱ Pause our little tune";
+}
+function showLove(){document.getElementById("secret").style.display="block"}
+function createHeart(){
+  const heart=document.createElement("span");heart.className="heart";
+  heart.textContent=["♥","♡","💗","💕"][Math.floor(Math.random()*4)];
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(16+Math.random()*20)+"px";
+  heart.style.animationDuration=(5+Math.random()*4)+"s";
+  document.body.appendChild(heart);setTimeout(()=>heart.remove(),9500);
+}
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)setInterval(createHeart,700);
+</script>
+</body>
+</html>
