@@ -42,7 +42,10 @@ footer{font-size:13px;color:#a65b78;margin-top:8px}
   <h2>To My Beautiful Girl 🌸</h2>
   <p class="quote">“In a world full of temporary things, you are my favorite forever.
   If I could choose again, in every lifetime, I would still choose you.”</p>
-  <button id="musicBtn" onclick="toggleMusic()">♫ Play our little tune</button><br>
+  <button id="musicBtn" onclick="toggleMusic()">♫ Play our music</button>
+  <p id="musicStatus" aria-live="polite">Ready to play our music.</p>
+  <audio id="audioPlayer" preload="metadata"
+         src="{{ url_for('static', filename='Dil Ka Jo Haal Hai(KoshalWorld.Com).mp3') }}"></audio>
   <button onclick="showLove()">💌 Open your little surprise</button>
   <div id="secret">No matter how ordinary a day feels, you make my world beautiful
   just by being in it. Thank you for being you.<br><br>
@@ -51,29 +54,31 @@ footer{font-size:13px;color:#a65b78;margin-top:8px}
   <footer>Made with love, only for you ❤️</footer>
 </main>
 <script>
-let audioContext, melodyTimer, playing=false, noteIndex=0;
-const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23,
-             261.63,329.63,392,523.25,440,392,329.63,293.66];
-function playNote(){
-  if(!playing||!audioContext)return;
-  const oscillator=audioContext.createOscillator(), volume=audioContext.createGain();
-  oscillator.type="sine"; oscillator.frequency.value=notes[noteIndex++%notes.length];
-  volume.gain.setValueAtTime(.0001,audioContext.currentTime);
-  volume.gain.exponentialRampToValueAtTime(.10,audioContext.currentTime+.06);
-  volume.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+.46);
-  oscillator.connect(volume);volume.connect(audioContext.destination);
-  oscillator.start();oscillator.stop(audioContext.currentTime+.48);
-}
+const audioPlayer=document.getElementById("audioPlayer");
+const musicButton=document.getElementById("musicBtn");
+const musicStatus=document.getElementById("musicStatus");
+let currentTrackName="our music";
+audioPlayer.addEventListener("ended",()=>{
+  musicButton.textContent=`♫ Play ${currentTrackName}`;
+});
+audioPlayer.addEventListener("error",()=>{
+  musicStatus.textContent="This audio file could not be played by your browser.";
+});
 async function toggleMusic(){
-  const button=document.getElementById("musicBtn");
-  if(playing){playing=false;clearInterval(melodyTimer);button.textContent="♫ Play our little tune";return}
-  const Engine=window.AudioContext||window.webkitAudioContext;
-  if(!Engine){button.textContent="Music isn't supported in this browser";return}
-  if(!audioContext)audioContext=new Engine();
-  if(audioContext.state==="suspended")await audioContext.resume();
-  playing=true;playNote();melodyTimer=setInterval(playNote,500);
-  button.textContent="Ⅱ Pause our little tune";
+  if(!audioPlayer.paused){audioPlayer.pause();return}
+  try{
+    await audioPlayer.play();
+  }catch(error){
+    musicStatus.textContent=`Couldn't play ${currentTrackName}: ${error.message}`;
+  }
 }
+audioPlayer.addEventListener("play",()=>{
+  musicButton.textContent=`Ⅱ Pause ${currentTrackName}`;
+  musicStatus.textContent=`Now playing: ${currentTrackName}`;
+});
+audioPlayer.addEventListener("pause",()=>{
+  if(!audioPlayer.ended)musicButton.textContent=`♫ Play ${currentTrackName}`;
+});
 function showLove(){document.getElementById("secret").style.display="block"}
 function createHeart(){
   const heart=document.createElement("span");heart.className="heart";
