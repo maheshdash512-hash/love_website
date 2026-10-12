@@ -1,94 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#fff0f5">
-<title>For My Favorite Person ❤️</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Georgia,serif;color:#74334e;
-  background:linear-gradient(145deg,#fff0f5,#f9d8e6,#fff5ee);text-align:center;
-  overflow-x:hidden;display:flex;justify-content:center;align-items:center;padding:16px}
-.card{width:min(100%,460px);margin:20px auto;padding:28px 22px;
-  background:rgba(255,255,255,.82);border:1px solid #fff;border-radius:28px;
-  box-shadow:0 15px 50px #c86a8b30;position:relative;backdrop-filter:blur(8px)}
-h1{font-size:clamp(29px,7vw,40px);margin:10px 0}
-.subtitle{color:#a65b78;line-height:1.6}
-.photo{width: min(270px,85%);height:330px;max-height:45vh;object-fit:cover;
-  object-position:center 28%;border-radius:48% 48% 22px 22px;border:6px solid white;
-  box-shadow:0 8px 25px #bd658550;margin:18px auto}
-.quote{font-size:19px;line-height:1.8;margin:20px 0}
-button{border:none;border-radius:30px;padding:13px 20px;margin:7px;font-size:15px;
-  cursor:pointer;background:#d85d88;color:white;box-shadow:0 5px 15px #d85d8830}
-button:hover{background:#b94370}
-button:focus-visible{outline:3px solid #74334e;outline-offset:3px}
-#secret{display:none;line-height:1.8;padding:12px;animation:appear 1s ease}
-.heart{position:fixed;bottom:-30px;color:#e7779d;pointer-events:none;
-  animation:floatUp 7s linear forwards;z-index:5}
-@keyframes floatUp{to{transform:translateY(-115vh) rotate(35deg);opacity:0}}
-@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-footer{font-size:13px;color:#a65b78;margin-top:8px}
-@media(prefers-reduced-motion:reduce){.heart{display:none}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff0f7">
+  <title>For My Favorite Person ❤️</title>
+  <style>
+    :root {
+      --bg-1: #fff6fb;
+      --bg-2: #ffe6f1;
+      --bg-3: #ffd4ea;
+      --card: rgba(255,255,255,0.72);
+      --card-strong: rgba(255,255,255,0.88);
+      --rose: #d94d87;
+      --rose-deep: #8b335f;
+      --rose-soft: #f9c8dd;
+      --gold: #ffd76a;
+      --text: #5d2a46;
+      --muted: #8d5877;
+      --shadow: 0 30px 60px rgba(139, 51, 95, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9), transparent 22%),
+        radial-gradient(circle at 80% 15%, rgba(255,230,244,0.95), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(255,196,222,0.7), transparent 28%),
+        linear-gradient(145deg, var(--bg-1), var(--bg-2), var(--bg-3));
+      color: var(--text);
+      overflow-x: hidden;
+      padding: 28px 18px;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      filter: blur(26px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: -120px;
+      left: -100px;
+    }
+
+    body::after {
+      bottom: -120px;
+      right: -80px;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 1100px);
+      display: grid;
+      place-items: center;
+    }
+
+    .card {
+      width: min(100%, 620px);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow);
+      border-radius: 34px;
+      padding: 30px 22px 24px;
+      backdrop-filter: blur(14px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 28px;
+      border: 1px solid rgba(139, 51, 95, 0.08);
+      pointer-events: none;
+    }
+
+    .sparkles {
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      letter-spacing: 0.22em;
+      margin-bottom: 12px;
+      animation: pulse 2.8s ease-in-out infinite alternate;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 4.1rem);
+      letter-spacing: -0.06em;
+      line-height: 1.06;
+      color: var(--rose-deep);
+    }
+
+    .subtitle {
+      margin: 10px auto 18px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .photo-wrap {
+      position: relative;
+      display: inline-block;
+      margin: 14px auto 18px;
+      border-radius: 32px;
+      padding: 10px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255, 201, 224, 0.8));
+      box-shadow: 0 18px 42px rgba(177, 78, 124, 0.18);
+    }
+
+    .photo-wrap::before,
+    .photo-wrap::after {
+      content: "❤";
+      position: absolute;
+      font-size: 1.7rem;
+      color: rgba(217, 77, 135, 0.7);
+      top: -12px;
+      animation: floatHeart 3s ease-in-out infinite alternate;
+    }
+
+    .photo-wrap::before { left: 18px; }
+    .photo-wrap::after { right: 18px; animation-delay: 0.7s; }
+
+    .photo {
+      width: min(360px, 82vw);
+      height: 430px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 26px;
+      border: 4px solid rgba(255,255,255,0.85);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255, 176, 208, 0.18);
+      border: 1px solid rgba(217, 77, 135, 0.12);
+      color: var(--rose);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    .quote {
+      margin: 22px auto 10px;
+      font-size: clamp(1.14rem, 2.5vw, 1.6rem);
+      line-height: 1.8;
+      max-width: 470px;
+      color: #68334d;
+      font-style: italic;
+    }
+
+    .memory-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 22px auto 0;
+      max-width: 510px;
+    }
+
+    .memory {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(139, 51, 95, 0.08);
+      border-radius: 18px;
+      padding: 12px 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      box-shadow: 0 10px 20px rgba(139,51,95,0.04);
+    }
+
+    .memory strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--rose-deep);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ef6e9d, #d65086);
+      color: white;
+      padding: 14px 22px;
+      box-shadow: 0 18px 28px rgba(217, 77, 135, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.75);
+      color: var(--rose-deep);
+      border: 1px solid rgba(139,51,95,0.12);
+      padding: 13px 20px;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .status {
+      min-height: 22px;
+      margin: 14px 0 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .secret {
+      display: none;
+      margin: 18px auto 0;
+      max-width: 430px;
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(139,51,95,0.08);
+      border-radius: 18px;
+      padding: 18px 14px 12px;
+      color: #63314c;
+      line-height: 1.85;
+      animation: appear 0.7s ease;
+    }
+
+    .secret strong {
+      color: var(--rose);
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -25px;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+      color: rgba(217, 77, 135, 0.85);
+      text-shadow: 0 0 10px rgba(255,255,255,0.35);
+      animation: floatUp 7s linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-115vh) rotate(35deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse {
+      from { transform: scale(0.98); opacity: 0.9; }
+      to { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 560px) {
+      .card { padding-left: 16px; padding-right: 16px; }
+      .memory-row { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+      button { width: 100%; }
+      .photo { height: 330px; }
+    }
+  </style>
 </head>
 <body>
-<main class="card">
-  <div style="font-size:30px" aria-hidden="true">💗 🌷 💗</div>
-  <h1>Hey, My Love ❤️</h1>
-  <p class="subtitle">A little piece of my heart, made just for you.</p>
-  <img class="photo" src="{{ url_for('static', filename='girlfriend.jpg') }}"
-       alt="A beautiful photo of my favorite person">
-  <h2>To My Beautiful Girl 🌸</h2>
-  <p class="quote">“In a world full of temporary things, you are my favorite forever.
-  If I could choose again, in every lifetime, I would still choose you.”</p>
-  <button id="musicBtn" onclick="toggleMusic()">♫ Play our music</button>
-  <p id="musicStatus" aria-live="polite">Ready to play our music.</p>
-  <audio id="audioPlayer" preload="metadata"
-         src="{{ url_for('static', filename='Dil Ka Jo Haal Hai(KoshalWorld.Com).mp3') }}"></audio>
-  <button onclick="showLove()">💌 Open your little surprise</button>
-  <div id="secret">No matter how ordinary a day feels, you make my world beautiful
-  just by being in it. Thank you for being you.<br><br>
-  <strong>I love you, today and always. ❤️</strong></div>
-  <p style="font-size:25px" aria-hidden="true">💞 ∞ 💞</p>
-  <footer>Made with love, only for you ❤️</footer>
-</main>
-<script>
-const audioPlayer=document.getElementById("audioPlayer");
-const musicButton=document.getElementById("musicBtn");
-const musicStatus=document.getElementById("musicStatus");
-let currentTrackName="our music";
-audioPlayer.addEventListener("ended",()=>{
-  musicButton.textContent=`♫ Play ${currentTrackName}`;
-});
-audioPlayer.addEventListener("error",()=>{
-  musicStatus.textContent="This audio file could not be played by your browser.";
-});
-async function toggleMusic(){
-  if(!audioPlayer.paused){audioPlayer.pause();return}
-  try{
-    await audioPlayer.play();
-  }catch(error){
-    musicStatus.textContent=`Couldn't play ${currentTrackName}: ${error.message}`;
-  }
-}
-audioPlayer.addEventListener("play",()=>{
-  musicButton.textContent=`Ⅱ Pause ${currentTrackName}`;
-  musicStatus.textContent=`Now playing: ${currentTrackName}`;
-});
-audioPlayer.addEventListener("pause",()=>{
-  if(!audioPlayer.ended)musicButton.textContent=`♫ Play ${currentTrackName}`;
-});
-function showLove(){document.getElementById("secret").style.display="block"}
-function createHeart(){
-  const heart=document.createElement("span");heart.className="heart";
-  heart.textContent=["♥","♡","💗","💕"][Math.floor(Math.random()*4)];
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(16+Math.random()*20)+"px";
-  heart.style.animationDuration=(5+Math.random()*4)+"s";
-  document.body.appendChild(heart);setTimeout(()=>heart.remove(),9500);
-}
-if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)setInterval(createHeart,700);
-</script>
+  <div class="page">
+    <main class="card">
+      <div class="sparkles" aria-hidden="true">💖 ✨ 💖</div>
+      <h1>Hey, My Love ❤️</h1>
+      <p class="subtitle">Every day with you feels like a beautiful memory I never want to forget.</p>
+
+      <div class="photo-wrap">
+        <img class="photo" src="{{ url_for('static', filename='girlfriend.jpg') }}" alt="My beautiful love">
+      </div>
+
+      <div class="tag">To My Favorite Person</div>
+      <p class="quote">“In a world full of temporary things, you are my favorite forever. I would still choose you in every heartbeat, every dream, and every lifetime.”</p>
+
+      <div class="memory-row">
+        <div class="memory"><strong>First glance</strong>Your smile makes everything feel better.</div>
+        <div class="memory"><strong>Best part</strong>Being calm and happy just being with you.</div>
+        <div class="memory"><strong>Forever</strong>Always choose you, no matter what.</div>
+      </div>
+
+      <div class="actions">
+        <button id="musicBtn" class="btn-primary" type="button" onclick="toggleMusic()">♫ Play our song</button>
+        <button class="btn-secondary" type="button" onclick="showLove()">💌 Open surprise</button>
+      </div>
+
+      <p id="musicStatus" class="status" aria-live="polite">Ready to play our song.</p>
+
+      <audio id="audioPlayer" preload="metadata" src="{{ url_for('static', filename='Dil Ka Jo Haal Hai(KoshalWorld.Com).mp3') }}"></audio>
+
+      <div id="secret" class="secret">
+        No matter how ordinary a day feels, you make my world more beautiful just by being in it.<br><br>
+        <strong>I love you more than words can say, today and always. ❤️</strong>
+      </div>
+
+      <div class="footer-note" aria-hidden="true">💞 forever & ever 💞</div>
+    </main>
+  </div>
+
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicStatus = document.getElementById('musicStatus');
+    const trackName = 'Dil Ka Jo Haal Hai';
+
+    audioPlayer.addEventListener('play', () => {
+      musicBtn.textContent = '❚❚ Pause song';
+      musicStatus.textContent = `Now playing: ${trackName}`;
+    });
+
+    audioPlayer.addEventListener('pause', () => {
+      if (!audioPlayer.ended) {
+        musicBtn.textContent = '♫ Play our song';
+      }
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+      musicBtn.textContent = '♫ Play our song';
+      musicStatus.textContent = 'Song ended. Ready for another replay.';
+    });
+
+    audioPlayer.addEventListener('error', () => {
+      musicStatus.textContent = 'This song could not be played by your browser.';
+    });
+
+    async function toggleMusic() {
+      if (!audioPlayer.paused) {
+        audioPlayer.pause();
+        return;
+      }
+
+      try {
+        await audioPlayer.play();
+      } catch (error) {
+        musicStatus.textContent = `Couldn't play ${trackName}: ${error.message}`;
+      }
+    }
+
+    function showLove() {
+      document.getElementById('secret').style.display = 'block';
+    }
+
+    function createHeart() {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = ['♥', '♡', '💗', '💕'][Math.floor(Math.random() * 4)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (16 + Math.random() * 18) + 'px';
+      heart.style.animationDuration = (5 + Math.random() * 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 9000);
+    }
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(createHeart, 700);
+    }
+  </script>
 </body>
 </html>
